@@ -1,98 +1,62 @@
-let konnyu = [
-    [0,0,0,2,0],
-    [0,1,0,0,0],
-    [0,0,2,0,0],
-    [3,0,0,3,0],
-    [1,0,0,0,0],
-  ]
-
-let kozepes = [
-    [2,0,0,9,0,0,0,5,0],
-    [1,0,0,8,0,11,0,0,5],
-    [0,2,0,0,6,0,7,0,0],
-    [0,0,0,0,0,11,0,10,0],
-    [0,0,0,7,0,0,0,0,0],
-    [0,0,0,4,0,0,0,0,0],
-    [0,0,0,0,0,0,0,3,6],
-    [0,9,0,4,8,0,0,0,0],
-    [0,1,0,0,0,0,0,10,3],
-]
-
-let nehez = [
-    [1,0,0,0,3,0,5,0,2],
-    [0,0,0,0,0,0,8,5,0],
-    [7,4,0,6,0,0,0,0,0],
-    [0,0,0,0,0,0,1,0,0],
-    [0,0,0,0,0,0,0,0,2],
-    [0,0,4,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0],
-    [0,7,0,0,0,0,3,0,0],
-    [0,0,0,6,0,0,0,0,8],
-]
-
-let szint;
-let kattintott=false;
+let clicked=false;
 let x,y;
-let ertek;
+let value;
 let table,trk,tdk;
-let szinecske;
-let eddigiek= [];
-let megvanmar=[];
+let color;
+let used= [];
+let ready=[];
 
-function valtas(){
-    for(let i=0; i<=szinecskek;i++){
-            megvanmar[i]=false;
+function change(){
+    for(let i=0; i<=colors;i++){
+            ready[i]=false;
         }
-    tabla();
-    szinez();
+    initTable();
+    changeColor();
 }
 
 
-
-
-function tabla(){
-
+function initTable(){
  tdk=document.querySelectorAll("td");
-let i=0;
-let j=0;
-for(const td of tdk){
-    td.dataset.x=i;
-    td.dataset.y=j;
-    td.dataset.color="";
-    td.addEventListener("mouseover",ramegy);
-    td.addEventListener("mousedown", () => {
-        if(event.button===0 && event.target.innerText!==""){
-            if(megvanmar[parseInt(event.target.innerText)-1]===false){
-            kattintott=true; 
-            x=event.target.dataset.x;
-            y=event.target.dataset.y;
-            ertek=event.target.innerText;
-            szinecske=event.target.dataset.color;
+    let i=0;
+    let j=0;
+    for(const td of tdk){
+        td.dataset.x=i;
+        td.dataset.y=j;
+        td.dataset.color="";
+        td.addEventListener("mouseover",hover);
+        td.addEventListener("mousedown", () => {
+            if(event.button===0 && event.target.innerText!==""){
+                if(ready[parseInt(event.target.innerText)-1]===false){
+                clicked=true; 
+                x=event.target.dataset.x;
+                y=event.target.dataset.y;
+                value=event.target.innerText;
+                color=event.target.dataset.color;
+                }
+            }else if(event.button===2){
+                color=event.target.dataset.color;
+                clicked=false; 
+                badPosition(event);
+                win(event);
+                used= [];
             }
-        }else if(event.button===2){
-            szinecske=event.target.dataset.color;
-            kattintott=false; 
-            roszhelyene(event);
-            nyert(event);
-            eddigiek= [];
+        });
+        td.addEventListener("mouseup",() => {
+            if((event.button===0&&clicked)||event.button===2){
+            clicked=false; 
+            badPosition(event);
+            win(event);
+            used= [];
+            color="";
+            }
+        });
+        j++;
+        if(j==meret){
+            j=0;
+            i++;
         }
-    });
-    td.addEventListener("mouseup",() => {
-        if((event.button===0&&kattintott)||event.button===2){
-        kattintott=false; 
-        roszhelyene(event);
-        nyert(event);
-        eddigiek= [];
-        szinecske="";
-        }
-    });
-    j++;
-    if(j==meret){
-        j=0;
-        i++;
+        
     }
-    
-}
 }
 
 
@@ -100,7 +64,7 @@ for(const td of tdk){
 
 
 
-function szinez(){
+function changeColor(){
     for(const td of tdk){
         if(td.innerText==="1") {td.dataset.color="#3399ff";td.style.backgroundColor="#3399ff"}
         if(td.innerText==="2"){ td.dataset.color="#61f226";td.style.backgroundColor="#61f226"}
@@ -120,78 +84,80 @@ function szinez(){
 
 
 
-function ramegy(event){
-    if(kattintott){
-        if(megvanmar[parseInt(ertek)-1]){
-            if(event.target===eddigiek[eddigiek.length-1]){
-                megvanmar[parseInt(ertek)-1]=false;
+function hover(event){
+    if(clicked){
+        if(ready[parseInt(value)-1]){
+            if(event.target===used[used.length-1]){
+                ready[parseInt(value)-1]=false;
             }else{
-                roszhelyene(event);
+                badPosition(event);
             }
         }else{
-        if(parseInt(event.target.dataset.x)===parseInt(event.relatedTarget.dataset.x)+1&& 
-        parseInt(event.target.dataset.y)===parseInt(event.relatedTarget.dataset.y) && 
-        event.target.innerText===""&&event.target.dataset.color===""){
-            event.target.style.backgroundColor=event.relatedTarget.dataset.color;
-            event.target.dataset.color=event.relatedTarget.dataset.color;
-            eddigiek.push(event.target);
-        }else if(parseInt(event.target.dataset.x)===parseInt(event.relatedTarget.dataset.x)-1&& parseInt(event.target.dataset.y)===parseInt(event.relatedTarget.dataset.y) &&event.target.innerText===""&&event.target.dataset.color===""){
-            event.target.style.backgroundColor=event.relatedTarget.dataset.color;
-            event.target.dataset.color=event.relatedTarget.dataset.color;
-            eddigiek.push(event.target);
-        }else if(parseInt(event.target.dataset.y)===parseInt(event.relatedTarget.dataset.y)+1 && parseInt(event.target.dataset.x)===parseInt(event.relatedTarget.dataset.x) &&event.target.innerText===""&&event.target.dataset.color===""){
-            event.target.style.backgroundColor=event.relatedTarget.dataset.color;
-            event.target.dataset.color=event.relatedTarget.dataset.color;
-            eddigiek.push(event.target);
-        }else if(parseInt(event.target.dataset.y)===parseInt(event.relatedTarget.dataset.y)-1 && parseInt(event.target.dataset.x)===parseInt(event.relatedTarget.dataset.x) &&event.target.innerText===""&&event.target.dataset.color===""){
-            event.target.style.backgroundColor=event.relatedTarget.dataset.color;
-            event.target.dataset.color=event.relatedTarget.dataset.color;
-            eddigiek.push(event.target);
-        }else if(event.target===eddigiek[eddigiek.length-2]){
-            eddigiek[eddigiek.length-1].style.backgroundColor="";
-            eddigiek[eddigiek.length-1].dataset.color="";
-            eddigiek.length=eddigiek.length-1
-        }else if (event.target!==eddigiek[eddigiek.length-1]){
-            roszhelyene(event);  
+            if(event.target.innerText === "" && event.target.dataset.color === ""){
+                const targetX = parseInt(event.target.dataset.x);
+                const targetY = parseInt(event.target.dataset.y);
+                const relatedTargetX = parseInt(event.relatedTarget.dataset.x);
+                const relatedTargetY = parseInt(event.relatedTarget.dataset.y);
+                if(targetX  ===  relatedTargetX + 1 && targetY  ===  relatedTargetY ){
+                    switchNext(event);
+                }else if(targetX  ===  relatedTargetX - 1 && targetY  ===  relatedTargetY){
+                    switchNext(event);
+                }else if(targetY  ===  relatedTargetY + 1 && targetX  ===  relatedTargetX){
+                    switchNext(event);
+                }else if(targetY  ===  relatedTargetY -1 && targetX  ===  relatedTargetX){
+                    switchNext(event);
+                }
+            }
+            if(event.target === used[used.length-2]){
+                used[used.length-1].style.backgroundColor="";
+                used[used.length-1].dataset.color="";
+                used.length=used.length-1
+            }else if (event.target !== used[used.length-1]){
+                badPosition(event);  
+            }
         }
-    }
     }
 }
 
+function switchNext(event){
+    event.target.style.backgroundColor=event.relatedTarget.dataset.color;
+    event.target.dataset.color=event.relatedTarget.dataset.color;
+    used.push(event.target);
+}
 
 
-function roszhelyene(event){
-    if(event.target.innerText!==ertek||(event.target.innerText===ertek&&(event.target.dataset.x==x && event.target.dataset.y==y))||
+function badPosition(event){
+    if(event.target.innerText!==value||(event.target.innerText===value&&(event.target.dataset.x==x && event.target.dataset.y==y))||
     event.button===2
     ){
         tdk=document.querySelectorAll("td");
         for(const td of tdk){
-            if(td.innerText==="" && td.dataset.color===szinecske){
+            if(td.innerText==="" && td.dataset.color===color){
                 td.dataset.color="";
                 td.style.backgroundColor="";
             }
             if(td.innerText!==""){
-                megvanmar[parseInt(td.innerText)-1]=false;
+                ready[parseInt(td.innerText)-1]=false;
             }
         }
         x=-1;
         y=-1;
-        szinecske="";
-        ertek="";
-        kattintott=false;
+        color="";
+        value="";
+        clicked=false;
     }else{
-        megvanmar[parseInt(ertek)-1]=true;
+        ready[parseInt(value)-1]=true;
     }
 }
 
-async function nyert(event){
-    roszhelyene(event);
+async function win(event){
+    badPosition(event);
     tdk=document.querySelectorAll("td");
-    let vege=true;
+    let end=true;
     for(const td of tdk){
-        if(td.dataset.color==""){vege=false;}
+        if(td.dataset.color==""){end=false;}
     }
-    if(vege===true){
+    if(end===true){
         alert("Teljesítetted a küldetést!");
         const fd = new FormData();
         fd.set("nev",neve);
@@ -199,25 +165,25 @@ async function nyert(event){
             method:"POST",
             body: fd
         });
-        valtas();
+        change();
     }
 }
 
 
 
-function menteskortorol(){
+function deleteWhenSave(){
     tdk=document.querySelectorAll("td");
     for(const td of tdk){
-        if(td.innerText==="" && td.dataset.color===szinecske){
+        if(td.innerText==="" && td.dataset.color===color){
             td.dataset.color="";
             td.style.backgroundColor="";
         }
     }
-    szinecske="";
+    color="";
 }
 
-async function ment(){
-    menteskortorol();
+async function saveByTime(){
+    deleteWhenSave();
     let colours=[];
     let i=0;
     tdk=document.querySelectorAll("td");
@@ -227,28 +193,21 @@ async function ment(){
     }
     const fd = new FormData;
     fd.set("nev",neve);
-    fd.set("szinecskek",colours);
-    fd.set("meg_van",megvanmar);
+    fd.set("colors",colours);
+    fd.set("meg_van",ready);
     const response=await fetch("saved.php",{
         method:"POST",
         body: fd
     });
 
-    let valami=await response.json();
-    console.log(valami);
+    let time=await response.json();
 
-    document.getElementById("uj").innerHTML += '<button id="load">'+valami+'</button>';
-
-
-
-let loads=document.querySelectorAll("#load");
-for (let index = 0; index < loads.length; index++) {
-    const element = loads[index];
-    element.addEventListener("click",betolt);
-}
+    document.getElementById("uj").innerHTML += '<button id="load">'+time+'</button>';
 }
 
-async function betolt(e){
+
+
+async function loadByTime(e){
     const fd = new FormData;
     let idopont=e.target.innerText;
     fd.set("azonosito",idopont);
@@ -275,9 +234,9 @@ async function betolt(e){
         for (let index = 0; index < m.length; index++) {
             const element = m[index];
             if(element==="false"){
-                megvanmar[index]=false;
+                ready[index]=false;
             }else{
-                megvanmar[index]=true;
+                ready[index]=true;
             }
         }
 
@@ -285,12 +244,13 @@ async function betolt(e){
 
 }
 
+
 let loads=document.querySelectorAll("#load");
 for (let index = 0; index < loads.length; index++) {
     const element = loads[index];
-    element.addEventListener("click",betolt);
+    element.addEventListener("click",loadByTime);
 }
-let save = document.querySelector("#save");
-save.addEventListener("click", ment);
+const savebtn = document.querySelector("#save");
+savebtn.addEventListener("click", saveByTime);
 
-valtas();
+change();
