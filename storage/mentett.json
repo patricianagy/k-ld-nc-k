@@ -1,0 +1,30 @@
+[
+    {
+        "user": "asd@asd.asd",
+        "palya": "Kerek erd\u0151",
+        "szinecskek": ",,,#61f226,,,#3399ff,,,,,,#61f226,,,#d926f2,,,#d926f2,,#3399ff,,,,",
+        "meg_van": "false,false,false,false",
+        "azonosito": "2021:03:30:11:49:16pm"
+    },
+    {
+        "user": "asd@asd.asd",
+        "palya": "Kerek erd\u0151",
+        "szinecskek": ",,,#61f226,,,#3399ff,,,,,,#61f226,,,#d926f2,,,#d926f2,,#3399ff,,,,",
+        "meg_van": "false,false,false,false",
+        "azonosito": "2021:03:30:11:49:24pm"
+    },
+    {
+        "user": "asd@asd.asd",
+        "palya": "Kerek erd\u0151",
+        "szinecskek": ",,,#61f226,,,#3399ff,,#61f226,#61f226,,,#61f226,,#61f226,#d926f2,,#61f226,#d926f2,#61f226,#3399ff,,#61f226,#61f226,#61f226",
+        "meg_van": "false,true,false,false",
+        "azonosito": "2021:03:30:11:49:22pm"
+    },
+    {
+        "user": "asd@asd.asd",
+        "palya": "\u00dcveg hegy",
+        "szinecskek": "#61f226,,,#88557b,,,,#3e40cd,,#3399ff,,,#097518,,#ff5733,,,#3e40cd,,#61f226,,,#c70039,,#48c9b0,,,,,,,,#ff5733,,#ea6e6e,,,,,#48c9b0,,,,,,,,,#f22639,,,,,,,,,,,,,#d926f2,#c70039,,#88557b,,#f22639,#097518,,,,,,#3399ff,,,,,,#ea6e6e,#d926f2",
+        "meg_van": "false,false,false,false,false,false,false,false,false,false,false,false",
+        "azonosito": "2021:03:30:11:49:28pm"
+    }
+]

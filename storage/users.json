@@ -1,0 +1,28 @@
+[
+    {
+        "email": "eslakjg@dfag.sh",
+        "password": "$2y$10$ZXLwMig2O6U975yzXad7lOKjWWDnxI0s2.EQi797Sc47kTmyp.qOa",
+        "fullname": "husd ksdf",
+        "role": "jatekos",
+        "kesz": []
+    },
+    {
+        "email": "asd@asd.asd",
+        "password": "$2y$10$GF1yy\/Og90O5Mqn\/JKaxBuMVF2wUH1SeZ2gyRMQqrvdfiawpD6sP2",
+        "fullname": "Asder",
+        "role": "jatekos",
+        "kesz": [
+            "Kerek erd\u0151"
+        ]
+    },
+    {
+        "email": "admin@admin.hu",
+        "password": "$2y$10$nUy27IfJkP4gEicm4Pyz.e.D08hWBpmfpY1FZlLQtU14S0Npmjlb2",
+        "fullname": "admin",
+        "role": "admin",
+        "kesz": [
+            "\u00fat",
+            "Kerek erd\u0151"
+        ]
+    }
+]
